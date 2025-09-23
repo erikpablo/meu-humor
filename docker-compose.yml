@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  my-mood-pg:
+    image: bitnami/postgresql
+    ports: 
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_USERNAME= docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=my_mood
+
+# docker compose up -d para iniciar 
