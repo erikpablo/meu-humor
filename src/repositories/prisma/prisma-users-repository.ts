@@ -3,8 +3,20 @@ import { prisma } from 'src/lib/prisma'
 
 export class PrismaUsersRepository {
   async create(data: Prisma.UserCreateInput) {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data,
     })
+
+    return user
+  }
+
+  async findByEmail(email: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+
+    return user
   }
 }

@@ -19,6 +19,12 @@ export class RegisterUseCase {
     email,
     password,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    const emailAlreadyExists = await this.usersRepository.findByEmail(email)
+
+    if (emailAlreadyExists) {
+      throw new Error('E-mail already exists.')
+    }
+
     const user = await this.usersRepository.create({
       name,
       email,
