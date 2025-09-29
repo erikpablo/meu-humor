@@ -1,10 +1,16 @@
 import fastify from 'fastify'
 import { env } from './env'
 import { ZodError } from 'zod'
-import { register } from './http/controller/user/register'
 import { UsersRoute } from './http/controller/user/route'
+import { join } from 'path'
+import fastifyStatic from '@fastify/static'
 
 export const app = fastify()
+
+app.register(fastifyStatic, {
+  root: join(__dirname, '..', 'uploads'),
+  prefix: '/uploads/',
+})
 
 app.register(UsersRoute)
 
