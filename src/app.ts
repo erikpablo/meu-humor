@@ -5,6 +5,7 @@ import { UsersRoute } from './http/controller/user/route'
 import { join } from 'path'
 import fastifyStatic from '@fastify/static'
 import fastifyMultipart from '@fastify/multipart'
+import fastifyJwt from '@fastify/jwt'
 
 export const app = fastify()
 
@@ -12,8 +13,11 @@ app.register(fastifyStatic, {
   root: join(__dirname, '..', 'uploads'),
   prefix: '/uploads/',
 })
-
 app.register(fastifyMultipart)
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
 
 app.register(UsersRoute)
 
