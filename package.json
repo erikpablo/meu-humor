@@ -12,6 +12,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.5.2",
     "eslint": "^8.57.1",
     "prisma": "^6.16.2",
@@ -19,6 +20,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@fastify/multipart": "^9.2.1",
     "@fastify/static": "^8.2.0",
     "@prisma/client": "^6.16.2",
     "bcryptjs": "^3.0.2",

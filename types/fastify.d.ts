@@ -1,8 +1,9 @@
 import 'fastify'
-import { Express } from 'express'
+import type { File } from 'multer'
 
 declare module 'fastify' {
   interface FastifyRequest {
-    file?: Express.Multer.File
+    file?: File
+    files?: File[]
   }
 }

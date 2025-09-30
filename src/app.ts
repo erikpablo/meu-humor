@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 import { UsersRoute } from './http/controller/user/route'
 import { join } from 'path'
 import fastifyStatic from '@fastify/static'
+import fastifyMultipart from '@fastify/multipart'
 
 export const app = fastify()
 
@@ -11,6 +12,8 @@ app.register(fastifyStatic, {
   root: join(__dirname, '..', 'uploads'),
   prefix: '/uploads/',
 })
+
+app.register(fastifyMultipart)
 
 app.register(UsersRoute)
 
