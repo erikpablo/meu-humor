@@ -1,6 +1,6 @@
 ## 📌 Requisitos Funcionais
 
-- [ ] O usuário poderá criar uma conta (registro com e-mail e senha).  
+- [x] O usuário poderá criar uma conta (registro com e-mail e senha).  
 - [ ] O usuário poderá fazer login no sistema.  
 - [ ] O usuário poderá registrar seu humor do dia.  
 - [ ] O sistema deve impedir que o mesmo usuário registre dois humores no mesmo dia.  
