@@ -21,3 +21,56 @@
 - [ ] Se o usuário não registrar o humor em um dia, o sistema não gera valores automáticos.  
 - [ ] Os dados de humor pertencem exclusivamente ao usuário que os criou  
   _(não pode ver/alterar de outro usuário)._  
+
+
+## ⚡️ Instalação e uso do Prisma
+
+### 1. Instalar dependências
+
+O Prisma já está listado nas dependências do projeto. Para instalar, basta rodar:
+
+```sh
+npm install prisma 
+para CLI
+npx prisma init 
+para iniciar no projeto
+```
+
+### 2. Configurar o banco de dados
+
+Edite o arquivo `.env` com sua string de conexão do banco de dados PostgreSQL. 
+
+Exemplo:
+
+```
+DATABASE_URL="postgresql://docker:docker@localhost:5432/my_mood?schema=public"
+```
+
+### 3. Rodar as migrations
+
+Para criar as tabelas no banco conforme o schema do Prisma, execute:
+
+```sh
+npx prisma migrate 
+```
+
+Ou, para rodar as migrations em ambiente de desenvolvimento e criar uma nova migration se houver mudanças:
+
+```sh
+npx prisma migrate dev
+```
+
+### 4. Abrir o Prisma Studio
+
+Para visualizar e editar os dados do banco via interface web:
+
+```sh
+npx prisma studio
+```
+
+O Prisma Studio abrirá no navegador, permitindo visualizar e editar os dados das tabelas.
+
+---
+
+**Referências:**
+- [Documentação Prisma](https://www.prisma.io/docs)
