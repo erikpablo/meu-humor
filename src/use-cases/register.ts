@@ -7,7 +7,6 @@ interface RegisterUseCaseRequest {
   name: string
   email: string
   password: string
-  avatarUrl?: string | null
 }
 
 interface RegisterUseCaseResponse {
@@ -21,7 +20,6 @@ export class RegisterUseCase {
     name,
     email,
     password,
-    avatarUrl,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const emailAlreadyExists = await this.usersRepository.findByEmail(email)
 
@@ -35,7 +33,6 @@ export class RegisterUseCase {
       name,
       email,
       password: password_hash,
-      avatarUrl,
     })
 
     return {
