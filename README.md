@@ -22,6 +22,48 @@
 - [ ] Os dados de humor pertencem exclusivamente ao usuário que os criou  
   _(não pode ver/alterar de outro usuário)._  
 
+# Config DataBase
+
+## 🐳 Como usar Docker e Docker Compose
+
+### 1. Instalar o Docker
+
+- Acesse [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/) e baixe o Docker Desktop para seu sistema operacional (Windows, Mac ou Linux).
+- Siga as instruções de instalação do site oficial.
+
+### 2. Iniciar o banco de dados com Docker Compose
+
+O projeto já possui o arquivo [`docker-compose.yml`](docker-compose.yml) configurado para subir o PostgreSQL.
+
+No terminal, execute:
+
+```sh
+docker compose up -d
+```
+
+Isso irá baixar a imagem do PostgreSQL e iniciar o banco em segundo plano.
+
+### 3. Parar o banco de dados
+
+Para parar e remover os containers criados:
+
+```sh
+docker compose down
+```
+
+### 4. Acessar o banco de dados
+
+- O banco estará disponível em `localhost:5432`.
+- Usuário: `docker`
+- Senha: `docker`
+- Banco: `my_mood`
+
+Essas credenciais já estão configuradas no arquivo `.env.example`.
+
+---
+
+> **Obs:** Certifique-se de que o Docker está rodando antes de iniciar o projeto ou rodar as migrations do Prisma.
+
 
 ## ⚡️ Instalação e uso do Prisma
 
@@ -71,6 +113,3 @@ npx prisma studio
 O Prisma Studio abrirá no navegador, permitindo visualizar e editar os dados das tabelas.
 
 ---
-
-**Referências:**
-- [Documentação Prisma](https://www.prisma.io/docs)
