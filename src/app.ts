@@ -6,8 +6,11 @@ import { join } from 'path'
 import fastifyStatic from '@fastify/static'
 import fastifyMultipart from '@fastify/multipart'
 import fastifyJwt from '@fastify/jwt'
+import cors from '@fastify/cors'
 
 export const app = fastify()
+
+app.register(cors)
 
 app.register(fastifyStatic, {
   root: join(__dirname, '..', 'uploads'),
