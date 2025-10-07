@@ -7,10 +7,15 @@ import fastifyStatic from '@fastify/static'
 import fastifyMultipart from '@fastify/multipart'
 import fastifyJwt from '@fastify/jwt'
 import cors from '@fastify/cors'
+import fastifyRedis from '@fastify/redis'
 
 export const app = fastify()
 
 app.register(cors)
+
+app.register(fastifyRedis, {
+  url: env.REDIS_URL,
+})
 
 app.register(fastifyStatic, {
   root: join(__dirname, '..', 'uploads'),

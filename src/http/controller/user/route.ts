@@ -1,9 +1,10 @@
-import type { FastifyInstance } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { register } from './register'
 import { upload } from 'src/middleware/multer'
 import { authenticate } from './authenticate'
 import { uploadAvatar } from './avatar'
 import { verifyJWT } from 'src/middleware/verify-jwt'
+import { logout } from './logout'
 
 export async function UsersRoute(app: FastifyInstance) {
   app.post('/register', register)
@@ -13,4 +14,5 @@ export async function UsersRoute(app: FastifyInstance) {
     { preHandler: upload.single('avatar'), onRequest: [verifyJWT] },
     uploadAvatar
   )
+  app.post('/logout', { onRequest: [verifyJWT] }, logout)
 }
