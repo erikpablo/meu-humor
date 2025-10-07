@@ -5,6 +5,7 @@ import { authenticate } from './authenticate'
 import { uploadAvatar } from './avatar'
 import { verifyJWT } from 'src/middleware/verify-jwt'
 import { logout } from './logout'
+import { profile } from './profile'
 
 export async function UsersRoute(app: FastifyInstance) {
   app.post('/register', register)
@@ -15,4 +16,5 @@ export async function UsersRoute(app: FastifyInstance) {
     uploadAvatar
   )
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
+  app.get('/me', { onRequest: [verifyJWT] }, profile)
 }
