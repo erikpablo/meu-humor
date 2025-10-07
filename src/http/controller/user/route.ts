@@ -9,7 +9,7 @@ import { logout } from './logout'
 export async function UsersRoute(app: FastifyInstance) {
   app.post('/register', register)
   app.post('/sessions', authenticate)
-  app.patch(
+  app.post(
     '/update_avatar',
     { preHandler: upload.single('avatar'), onRequest: [verifyJWT] },
     uploadAvatar

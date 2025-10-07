@@ -10,19 +10,27 @@ export async function uploadAvatar(
   const fileData = request.file
   const userId = request.user.sub
 
-  const fileSchema = z.object({
-    filename: z.string(),
-  })
+  const { filename } = z.object({ filename: z.string() }).parse(fileData)
 
-  const { filename } = fileSchema.parse(fileData)
+  // Regex para extrair UUID + extensão (jpg, jpeg, png, webp, gif)
+  const match = filename.match(
+    /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*\.(jpg|jpeg|png|webp|gif)$/i
+  )
+
+  if (!match) {
+    return reply.status(400).send({ message: 'Invalid file name format' })
+  }
+
+  // Nome final: UUID + extensão
+  const finalFilename = `${match[1]}.${match[2].toLowerCase()}`
 
   const userRepository = new PrismaUsersRepository()
   const avatarUseCase = new UpdateUserAvatarUseCase(userRepository)
 
-  const user = await avatarUseCase.execute({
+  const result = await avatarUseCase.execute({
     userId,
-    avatarUrl: filename,
+    avatarUrl: finalFilename,
   })
 
-  return reply.status(200).send({ user })
+  return reply.status(200).send(result)
 }
