@@ -1,3 +1,4 @@
+import { makeRevokeTokenUseCase } from '@/use-cases/factories/make-logout-use-case'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { RedisBlacklistTokenRepository } from 'src/repositories/redis/black-list-token-repository'
 import { RevokeTokenUseCase } from 'src/use-cases/logout'
@@ -9,7 +10,7 @@ interface UserPayload {
   iat: number
 }
 
-type AuthenticatedRequest = FastifyRequest & { user: UserPayload }
+export type AuthenticatedRequest = FastifyRequest & { user: UserPayload }
 
 export async function logout(
   request: AuthenticatedRequest,
@@ -28,10 +29,7 @@ export async function logout(
       return reply.code(400).send({ message: messages.invalidToken })
     }
 
-    const blacklistRepo = new RedisBlacklistTokenRepository(
-      request.server.redis
-    )
-    const revokeTokenUseCase = new RevokeTokenUseCase(blacklistRepo)
+    const revokeTokenUseCase = makeRevokeTokenUseCase(request.server.redis)
 
     // Evita revogar tokens já expirados
     const now = Math.floor(Date.now() / 1000)

@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { PrismaUsersRepository } from 'src/repositories/prisma/prisma-users-repository'
-import { UpdateUserAvatarUseCase } from 'src/use-cases/update-user-avatar'
+import { makeUpdateAvatarUseCase } from 'src/use-cases/factories/make-update-user-avatar-use-case'
+
 import { z } from 'zod'
 
 export async function uploadAvatar(
@@ -24,8 +24,7 @@ export async function uploadAvatar(
   // Nome final: UUID + extensão
   const finalFilename = `${match[1]}.${match[2].toLowerCase()}`
 
-  const userRepository = new PrismaUsersRepository()
-  const avatarUseCase = new UpdateUserAvatarUseCase(userRepository)
+  const avatarUseCase = makeUpdateAvatarUseCase()
 
   const result = await avatarUseCase.execute({
     userId,

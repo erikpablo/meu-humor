@@ -1,6 +1,5 @@
 import { InMemoryUsersRepository } from 'src/repositories/in-memory/in-memory-users-repository'
 import { describe, it, expect, beforeEach } from 'vitest'
-import { RegisterUseCase } from './register'
 import { hash } from 'bcryptjs'
 import { AuthenticateUseCase } from './authenticate'
 import { invalidCredentialsError } from './error/invalid-credentials-error'
