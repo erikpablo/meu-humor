@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client'
 import type { UsersRepository } from 'src/repositories/users-repository'
 import { ResourceNotFoundError } from './error/resource-not-found-error'
-import { AvatarNotSetError } from './error/avatare-not-set-error'
+import { AvatarNotSetError } from './error/avatar-not-set-error'
 
 interface UpdateUserAvatarUseCaseRequest {
   userId: string
