@@ -5,4 +5,5 @@ export interface UsersRepository {
   save(userId: string, avatarUrl: string): Promise<User>
   findByEmail(email: string): Promise<User | null>
   findById(id: string): Promise<User | null>
+  update(userId: string, name: string, password: string): Promise<User>
 }
