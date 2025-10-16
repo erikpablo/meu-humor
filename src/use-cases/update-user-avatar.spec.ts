@@ -26,4 +26,19 @@ describe('Update User Avatar Use Case', () => {
 
     expect(avatarUrl).toEqual('https://example.com/avatar.jpg')
   })
+
+  it('should not be able to update user avatar without providing an avatar file', async () => {
+    const user = await usersRepository.create({
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: '123456',
+    })
+
+    await expect(() =>
+      sut.execute({
+        userId: user.id,
+        avatarUrl: '',
+      })
+    ).rejects.toBeInstanceOf(Error) // ou seu erro customizado, ex: MissingAvatarError
+  })
 })

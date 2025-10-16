@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { invalidCredentialsError } from 'src/use-cases/error/invalid-credentials-error'
+import { InvalidCredentialsError } from 'src/use-cases/error/invalid-credentials-error'
 import { makeAuthenticateUseCase } from 'src/use-cases/factories/make-authenticate-use-case'
 import { z } from 'zod'
 import id from 'zod/v4/locales/id.js'
@@ -34,7 +34,7 @@ export async function authenticate(
       .status(200)
       .send({ token, id: user.id, name: user.name, email: user.email })
   } catch (err) {
-    if (err instanceof invalidCredentialsError) {
+    if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message })
     }
     throw err

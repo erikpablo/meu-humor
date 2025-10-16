@@ -1,10 +1,5 @@
 import { makeGetUserProfileUseCase } from '@/use-cases/factories/make-get-user-profile'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { create } from 'node:domain'
-import { PrismaUsersRepository } from 'src/repositories/prisma/prisma-users-repository'
-import { GetUserProfileUseCase } from 'src/use-cases/get-user-profile'
-import { RegisterUseCase } from 'src/use-cases/register'
-import { z } from 'zod'
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {
   const registerUseCase = makeGetUserProfileUseCase()
