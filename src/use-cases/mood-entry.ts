@@ -1,39 +1,39 @@
 import type { MoodEntry } from '@prisma/client'
 import { MissingDataError } from './error/missing-data-error'
-import type { MoodTypeRepository } from '@/repositories/mood-type-repository'
+import type { MoodEntryRepository } from '@/repositories/mood-entry-repository'
 import { MaxNumberOfMoodTypeError } from './error/max-number-of-mood-type-error'
 
-interface MoodTypeUseCaseRequest {
+interface MoodEntryUseCaseRequest {
   userId: string
   moodTypeId: string
   note?: string
 }
 
-interface MoodTypeUseCaseResponse {
+interface MoodEntryUseCaseResponse {
   moodEntry: MoodEntry
 }
 
-export class MoodTypeUseCase {
-  constructor(private moodTypeRepository: MoodTypeRepository) {}
+export class MoodEntryUseCase {
+  constructor(private moodEntryRepository: MoodEntryRepository) {}
   async execute({
     userId,
     moodTypeId,
     note,
-  }: MoodTypeUseCaseRequest): Promise<MoodTypeUseCaseResponse> {
+  }: MoodEntryUseCaseRequest): Promise<MoodEntryUseCaseResponse> {
     if (!userId || !moodTypeId) {
       throw new MissingDataError()
     }
 
-    const moodTypeOnSameDay = await this.moodTypeRepository.findByIdOnDate(
+    const moodEntryOnSameDay = await this.moodEntryRepository.findByIdOnDate(
       userId,
       new Date()
     )
 
-    if (moodTypeOnSameDay) {
+    if (moodEntryOnSameDay) {
       throw new MaxNumberOfMoodTypeError()
     }
 
-    const moodEntry = await this.moodTypeRepository.create({
+    const moodEntry = await this.moodEntryRepository.create({
       userId,
       moodTypeId,
       note,

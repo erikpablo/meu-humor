@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import type { MoodEntry, Prisma } from '@prisma/client'
-import type { MoodTypeRepository } from '../mood-type-repository'
 import dayjs from 'dayjs'
+import type { MoodEntryRepository } from '../mood-entry-repository'
 
-export class PrismaMoodTypeRepository implements MoodTypeRepository {
+export class PrismaMoodEntryRepository implements MoodEntryRepository {
   async findByIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf('date')
     const endOfTheDay = dayjs(date).endOf('date')
