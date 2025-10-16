@@ -1,9 +1,10 @@
 import { InMemoryUsersRepository } from 'src/repositories/in-memory/in-memory-users-repository'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { compare, hash } from 'bcryptjs'
-import { GetUserProfileUseCase } from './get-user-profile'
 import { UpdateProfileUseCase } from './update-profile'
 import { ResourceNotFoundError } from './error/resource-not-found-error'
+import { OldPasswordDoesNotMatchError } from './error/old-password-does-not-match-error'
+import { NewPasswordDoesNotMatchError } from './error/new-password-does-not-match-error'
 
 let usersRepository: InMemoryUsersRepository
 let sut: UpdateProfileUseCase
@@ -25,7 +26,9 @@ describe('Ge user profile Use Case', () => {
     const { user } = await sut.execute({
       userId: createUser.id,
       name: 'Erik Pablo',
-      password: '123456789',
+      oldPassword: '12345678',
+      newPassword: '123456789',
+      confirmNewPassword: '123456789',
     })
 
     expect(user.name).toEqual('Erik Pablo')
@@ -34,12 +37,52 @@ describe('Ge user profile Use Case', () => {
     expect(isPasswordCorrect).toBe(true)
   })
 
-  it('should not be able to update data if the id does not exist', async () => {
+  it('should not be possible to update the profile if the old password is not correct', async () => {
+    const createUser = await usersRepository.create({
+      id: 'user_id',
+      name: 'John Doe',
+      email: 'jhon@gmail.com',
+      password: await hash('12345678', 8),
+    })
+
+    await expect(() =>
+      sut.execute({
+        userId: createUser.id,
+        name: 'Erik Pablo',
+        oldPassword: '1234567',
+        newPassword: '123456789',
+        confirmNewPassword: '123456789',
+      })
+    ).rejects.toBeInstanceOf(OldPasswordDoesNotMatchError)
+  })
+
+  it('should not be possible to update the profile if the new password confirmation is not correct.', async () => {
+    const createUser = await usersRepository.create({
+      id: 'user_id',
+      name: 'John Doe',
+      email: 'jhon@gmail.com',
+      password: await hash('12345678', 8),
+    })
+
+    await expect(() =>
+      sut.execute({
+        userId: createUser.id,
+        name: 'Erik Pablo',
+        oldPassword: '12345678',
+        newPassword: '123456789',
+        confirmNewPassword: '12345678',
+      })
+    ).rejects.toBeInstanceOf(NewPasswordDoesNotMatchError)
+  })
+
+  it('should not be able to update data if the user does not exist', async () => {
     await expect(() =>
       sut.execute({
         userId: 'user_id_not_exists',
         name: 'Erik Pablo',
-        password: '123456',
+        oldPassword: '12345678',
+        newPassword: '123456789',
+        confirmNewPassword: '123456789',
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })

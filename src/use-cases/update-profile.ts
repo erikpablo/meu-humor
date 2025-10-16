@@ -2,11 +2,15 @@ import { compare, hash } from 'bcryptjs'
 import { User } from '@prisma/client'
 import { UsersRepository } from 'src/repositories/users-repository'
 import { ResourceNotFoundError } from './error/resource-not-found-error'
+import { OldPasswordDoesNotMatchError } from './error/old-password-does-not-match-error'
+import { NewPasswordDoesNotMatchError } from './error/new-password-does-not-match-error'
 
 interface UpdateProfileUseCaseRequest {
   userId: string
   name: string
-  password: string
+  oldPassword: string
+  newPassword: string
+  confirmNewPassword: string
 }
 
 interface UpdateProfileUseCaseResponse {
@@ -19,7 +23,9 @@ export class UpdateProfileUseCase {
   async execute({
     userId,
     name,
-    password,
+    oldPassword,
+    newPassword,
+    confirmNewPassword,
   }: UpdateProfileUseCaseRequest): Promise<UpdateProfileUseCaseResponse> {
     const userExist = await this.usersRepository.findById(userId)
 
@@ -27,9 +33,28 @@ export class UpdateProfileUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const passwordHash = await hash(password, 8)
+    const oldPasswordDoesMatch = await compare(oldPassword, userExist.password)
 
-    const user = await this.usersRepository.update(userId, name, passwordHash)
+    if (!oldPasswordDoesMatch) {
+      throw new OldPasswordDoesNotMatchError()
+    }
+
+    const newPasswordHash = await hash(newPassword, 8)
+
+    const newPasswordHashIsCorrect = await compare(
+      confirmNewPassword,
+      newPasswordHash
+    )
+
+    if (!newPasswordHashIsCorrect) {
+      throw new NewPasswordDoesNotMatchError()
+    }
+
+    const user = await this.usersRepository.update(
+      userId,
+      name,
+      newPasswordHash
+    )
 
     return {
       user,
