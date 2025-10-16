@@ -8,6 +8,7 @@ import fastifyMultipart from '@fastify/multipart'
 import fastifyJwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import fastifyRedis from '@fastify/redis'
+import { moodRoutes } from './http/controller/moody/route'
 
 export const app = fastify()
 
@@ -28,6 +29,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(UsersRoute)
+app.register(moodRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
