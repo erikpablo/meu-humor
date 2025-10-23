@@ -1,9 +1,9 @@
 import z from 'zod'
 
 export const registerBodySchema = z.object({
-  name: z.string().min(3).max(100),
+  name: z.string(),
   email: z.email(),
-  password: z.string().min(8).max(50),
+  password: z.string().min(8),
 })
 
 export type RegisterBodySchema = z.infer<typeof registerBodySchema>

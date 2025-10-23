@@ -16,7 +16,7 @@ describe('Update User Avatar Use Case', () => {
     const user = await usersRepository.create({
       name: 'John Doe',
       email: 'john@example.com',
-      password: '123456',
+      password: '12345678',
     })
 
     const { avatarUrl } = await sut.execute({
@@ -31,7 +31,7 @@ describe('Update User Avatar Use Case', () => {
     const user = await usersRepository.create({
       name: 'John Doe',
       email: 'john@example.com',
-      password: '123456',
+      password: '12345678',
     })
 
     await expect(() =>
