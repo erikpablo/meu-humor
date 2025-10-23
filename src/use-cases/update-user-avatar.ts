@@ -23,7 +23,6 @@ export class UpdateUserAvatarUseCase {
 
     const user = await this.usersRepository.save(userId, avatarUrl)
 
-    // Garantindo que avatarUrl existe
     if (!user.avatarUrl) {
       throw new AvatarNotSetError()
     }

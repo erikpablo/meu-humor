@@ -30,8 +30,17 @@ app.register(cors)
 app.register(fastifySwagger, {
   openapi: {
     info: {
-      title: 'Meu humor',
+      title: 'Meu Humor',
       version: '1.0.0',
+    },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
     },
   },
   transform: jsonSchemaTransform,
@@ -39,6 +48,7 @@ app.register(fastifySwagger, {
 
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
+  staticCSP: true,
 })
 
 app.register(fastifyRedis, {

@@ -1,7 +1,5 @@
 import { makeRevokeTokenUseCase } from '@/use-cases/factories/make-logout-use-case'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { RedisBlacklistTokenRepository } from 'src/repositories/redis/black-list-token-repository'
-import { RevokeTokenUseCase } from 'src/use-cases/logout'
 import { messages } from 'utils/messages'
 
 interface UserPayload {

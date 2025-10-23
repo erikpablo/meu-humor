@@ -1,4 +1,3 @@
-import { FastifyInstance } from 'fastify'
 import { register } from './register'
 import { upload } from 'src/middleware/multer'
 import { authenticate } from './authenticate'
@@ -7,16 +6,35 @@ import { verifyJWT } from 'src/middleware/verify-jwt'
 import { logout } from './logout'
 import { profile } from './profile'
 import { updateProfile } from './update-profile'
+import type { FastifyTypeInstance } from 'utils/types'
+import { registerSchema } from './schemas/register.schema'
+import { authenticateSchema } from './schemas/authenticate.schema'
+import { logoutSchema } from './schemas/logout.schema'
 
-export async function UsersRoute(app: FastifyInstance) {
-  app.post('/register', register)
-  app.post('/sessions', authenticate)
+export async function UsersRoute(app: FastifyTypeInstance) {
+  app.post(
+    '/register',
+    {
+      schema: registerSchema,
+    },
+    register
+  )
+  app.post(
+    '/sessions',
+    {
+      schema: authenticateSchema,
+    },
+    authenticate
+  )
   app.post(
     '/update_avatar',
-    { preHandler: upload.single('avatar'), onRequest: [verifyJWT] },
+    {
+      onRequest: [verifyJWT],
+      preHandler: upload.single('avatar'),
+    },
     uploadAvatar
   )
-  app.post('/logout', { onRequest: [verifyJWT] }, logout)
+  app.post('/logout', { onRequest: [verifyJWT], schema: logoutSchema }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, profile)
   app.patch('/profile', { onRequest: [verifyJWT] }, updateProfile)
 }
