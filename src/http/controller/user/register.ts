@@ -1,13 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { UserAlreadyExistsError } from 'src/use-cases/error/user-already-exists-error'
 import { makeRegisterUseCase } from 'src/use-cases/factories/make-register-user-case'
-import { RegisterBodySchema } from './schemas/register.schema'
+import { registerBodySchema } from './schemas/register.schema'
 
-export async function register(
-  request: FastifyRequest<{ Body: RegisterBodySchema }>,
-  reply: FastifyReply
-) {
-  const { name, email, password } = request.body
+export async function register(request: FastifyRequest, reply: FastifyReply) {
+  const { name, email, password } = registerBodySchema.parse(request.body)
 
   try {
     const registerUseCase = makeRegisterUseCase()

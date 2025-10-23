@@ -6,8 +6,6 @@ export const registerBodySchema = z.object({
   password: z.string().min(8),
 })
 
-export type RegisterBodySchema = z.infer<typeof registerBodySchema>
-
 export const registerResponseSchema = z.object({
   id: z.uuid(),
   email: z.email(),

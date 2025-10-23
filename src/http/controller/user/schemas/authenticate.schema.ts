@@ -5,8 +5,6 @@ export const authenticateBodySchema = z.object({
   password: z.string().min(8).max(50),
 })
 
-export type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
-
 export const authenticateResponseSchema = z.object({
   token: z.string().describe('JWT token generated after login'),
   id: z.uuid(),

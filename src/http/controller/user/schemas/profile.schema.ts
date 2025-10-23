@@ -4,7 +4,7 @@ export const profileResponseSchema = z.object({
   user: z.object({
     id: z.uuid(),
     name: z.string(),
-    avatarUrl: z.url(),
+    avatarUrl: z.string(),
   }),
 })
 

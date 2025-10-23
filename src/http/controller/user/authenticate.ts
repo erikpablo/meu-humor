@@ -1,13 +1,13 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { InvalidCredentialsError } from 'src/use-cases/error/invalid-credentials-error'
 import { makeAuthenticateUseCase } from 'src/use-cases/factories/make-authenticate-use-case'
-import type { AuthenticateBodySchema } from './schemas/authenticate.schema'
+import { authenticateBodySchema } from './schemas/authenticate.schema'
 
 export async function authenticate(
-  request: FastifyRequest<{ Body: AuthenticateBodySchema }>,
+  request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { email, password } = request.body
+  const { email, password } = authenticateBodySchema.parse(request.body)
 
   try {
     const authenticateUseCase = makeAuthenticateUseCase()
