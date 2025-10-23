@@ -5,6 +5,10 @@ export const moodEntryBodySchema = z.object({
   note: z.string().optional(),
 })
 
+const errorResponseSchema = z.object({
+  message: z.string(),
+})
+
 export const profileSchema = {
   tags: ['Mood'],
   description: 'Allows the user to record their mood for the day.',
@@ -12,6 +16,6 @@ export const profileSchema = {
   body: moodEntryBodySchema,
   response: {
     204: z.null(),
-    400: z.string().default('Missing or invalid data'),
+    400: errorResponseSchema,
   },
 }
