@@ -11,6 +11,7 @@ import { registerSchema } from './schemas/register.schema'
 import { authenticateSchema } from './schemas/authenticate.schema'
 import { logoutSchema } from './schemas/logout.schema'
 import { profileSchema } from './schemas/profile.schema'
+import { updateProfileSchema } from './schemas/update-profile.schema'
 
 export async function UsersRoute(app: FastifyTypeInstance) {
   app.post(
@@ -37,5 +38,9 @@ export async function UsersRoute(app: FastifyTypeInstance) {
   )
   app.post('/logout', { onRequest: [verifyJWT], schema: logoutSchema }, logout)
   app.get('/me', { onRequest: [verifyJWT], schema: profileSchema }, profile)
-  app.patch('/profile', { onRequest: [verifyJWT] }, updateProfile)
+  app.put(
+    '/update_profile',
+    { onRequest: [verifyJWT], schema: updateProfileSchema },
+    updateProfile
+  )
 }

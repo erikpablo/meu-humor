@@ -1,14 +1,9 @@
 import { MissingDataError } from '@/use-cases/error/missing-data-error'
 import { makeMoodTypeUseCase } from '@/use-cases/factories/make-moody-entry-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
+import { moodEntryBodySchema } from './schemas/mood.schema'
 
 export async function moodEntry(request: FastifyRequest, reply: FastifyReply) {
-  const moodEntryBodySchema = z.object({
-    moodTypeId: z.string(),
-    note: z.string().optional(),
-  })
-
   const { moodTypeId, note } = moodEntryBodySchema.parse(request.body)
 
   try {
