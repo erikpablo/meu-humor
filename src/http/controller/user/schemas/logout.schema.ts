@@ -13,7 +13,7 @@ export const logoutErrorInternalSchema = z.object({
 })
 
 export const logoutSchema = {
-  tags: ['Users'],
+  tags: ['Logout'],
   description: 'Logout user by revoking the token',
   security: [{ BearerAuth: [] }],
   response: {

@@ -9,7 +9,7 @@ export const profileResponseSchema = z.object({
 })
 
 export const profileSchema = {
-  tags: ['Users'],
+  tags: ['Profile'],
   description: 'Get user profile information',
   security: [{ BearerAuth: [] }],
   response: {

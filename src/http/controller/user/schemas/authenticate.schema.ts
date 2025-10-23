@@ -15,7 +15,7 @@ export const authenticateResponseSchema = z.object({
 })
 
 export const authenticateSchema = {
-  tags: ['Users'],
+  tags: ['Auth'],
   description: 'Authenticate a user and return a token',
   body: authenticateBodySchema,
   response: {
