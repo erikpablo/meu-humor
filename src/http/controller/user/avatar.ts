@@ -1,3 +1,4 @@
+import { AvatarNotSetError } from '@/use-cases/error/avatar-not-set-error'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeUpdateAvatarUseCase } from 'src/use-cases/factories/make-update-user-avatar-use-case'
 
@@ -21,15 +22,20 @@ export async function uploadAvatar(
     return reply.status(400).send({ message: 'Invalid file name format' })
   }
 
-  // Nome final: UUID + extensão
   const finalFilename = `${match[1]}.${match[2].toLowerCase()}`
 
-  const avatarUseCase = makeUpdateAvatarUseCase()
+  try {
+    const avatarUseCase = makeUpdateAvatarUseCase()
 
-  const result = await avatarUseCase.execute({
-    userId,
-    avatarUrl: finalFilename,
-  })
-
-  return reply.status(200).send(result)
+    await avatarUseCase.execute({
+      userId,
+      avatarUrl: finalFilename,
+    })
+    return reply.status(200).send()
+  } catch (err) {
+    if (err instanceof AvatarNotSetError) {
+      return reply.status(400).send({ message: err.message })
+    }
+    throw err
+  }
 }
