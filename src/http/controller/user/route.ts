@@ -10,6 +10,7 @@ import type { FastifyTypeInstance } from 'utils/types'
 import { registerSchema } from './schemas/register.schema'
 import { authenticateSchema } from './schemas/authenticate.schema'
 import { logoutSchema } from './schemas/logout.schema'
+import { profileSchema } from './schemas/profile.schema'
 
 export async function UsersRoute(app: FastifyTypeInstance) {
   app.post(
@@ -35,6 +36,6 @@ export async function UsersRoute(app: FastifyTypeInstance) {
     uploadAvatar
   )
   app.post('/logout', { onRequest: [verifyJWT], schema: logoutSchema }, logout)
-  app.get('/me', { onRequest: [verifyJWT] }, profile)
+  app.get('/me', { onRequest: [verifyJWT], schema: profileSchema }, profile)
   app.patch('/profile', { onRequest: [verifyJWT] }, updateProfile)
 }
