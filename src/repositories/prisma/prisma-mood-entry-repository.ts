@@ -1,7 +1,10 @@
 import { prisma } from '@/lib/prisma'
-import type { Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
-import type { MoodEntryRepository } from '../mood-entry-repository'
+import {
+  MoodEntryRepository,
+  MoodEntryWithType,
+} from '../mood-entry-repository'
 
 export class PrismaMoodEntryRepository implements MoodEntryRepository {
   async findByIdOnDate(userId: string, date: Date) {
@@ -27,5 +30,28 @@ export class PrismaMoodEntryRepository implements MoodEntryRepository {
     })
 
     return moodType
+  }
+
+  async findManyByDateRange(params: {
+    userId: string
+    startDate: Date
+    endDate: Date
+    order?: 'asc' | 'desc'
+    limit?: number
+  }): Promise<MoodEntryWithType[]> {
+    const { userId, startDate, endDate, order = 'asc', limit } = params
+
+    return prisma.moodEntry.findMany({
+      where: {
+        userId,
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      orderBy: { createdAt: order },
+      take: limit,
+      include: { moodType: true },
+    })
   }
 }
