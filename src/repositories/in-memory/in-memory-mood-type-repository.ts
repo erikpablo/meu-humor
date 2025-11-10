@@ -1,41 +1,32 @@
-import { Prisma, MoodEntry } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
-import { MoodEntryRepository } from '../mood-entry-repository'
-import dayjs from 'dayjs'
 
-export class InMemoryMoodTypeRepository implements MoodEntryRepository {
-  public items: MoodEntry[] = []
+export interface MoodType {
+  id: string
+  name: string
+  emoji: string
+  weight: number
+}
 
-  async findByIdOnDate(userId: string, date: Date) {
-    const startOfTheDay = dayjs(date).startOf('date')
-    const endOfTheDay = dayjs(date).endOf('date')
+export class InMemoryMoodTypeRepository {
+  public items: MoodType[] = []
 
-    const moodEntryInOnSameDate = this.items.find((moodEntry) => {
-      const MoodInDate = dayjs(moodEntry.createdAt)
-      const InOnSameDate =
-        MoodInDate.isAfter(startOfTheDay) && MoodInDate.isBefore(endOfTheDay)
-
-      return moodEntry.userId === userId && InOnSameDate
-    })
-
-    if (!moodEntryInOnSameDate) {
-      return null
+  async create(data: Omit<MoodType, 'id'>): Promise<MoodType> {
+    const moodType: MoodType = {
+      id: randomUUID(),
+      ...data,
     }
 
-    return moodEntryInOnSameDate
+    this.items.push(moodType)
+
+    return moodType
   }
 
-  async create(data: Prisma.MoodEntryUncheckedCreateInput) {
-    const moodEntry: MoodEntry = {
-      id: data.id ?? randomUUID(),
-      note: data.note ?? null,
-      createdAt: new Date(),
-      moodTypeId: data.moodTypeId,
-      userId: data.userId,
-    }
+  async findById(id: string): Promise<MoodType | null> {
+    const mood = this.items.find((item) => item.id === id)
+    return mood || null
+  }
 
-    this.items.push(moodEntry)
-
-    return moodEntry
+  async findAll(): Promise<MoodType[]> {
+    return this.items
   }
 }
