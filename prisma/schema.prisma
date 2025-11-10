@@ -36,13 +36,13 @@ model MoodType {
 }
 
 model MoodEntry {
-  id        String   @id @default(uuid())
-  note      String?
-  createdAt DateTime @default(now()) @map("created_at")
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @map("user_id")
-
-  moodType   MoodType @relation(fields: [moodTypeId], references: [id])
+  id         String   @id @default(uuid())
+  note       String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  userId     String   @map("user_id")
   moodTypeId String   @map("mood_type_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  moodType MoodType @relation(fields: [moodTypeId], references: [id])
 }
