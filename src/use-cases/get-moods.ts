@@ -17,8 +17,8 @@ interface GetMoodsUseCaseRequest {
 interface GetMoodsUseCaseResponse {
   data: {
     id: string
-    data: string
-    humor: number
+    date: string
+    weight: number
   }[]
   avg: number | null
 }
@@ -65,8 +65,8 @@ export class GetMoodsUseCase {
     return {
       data: moods.map((mood) => ({
         id: mood.id,
-        data: dayjs(mood.createdAt).format('YYYY-MM-DD'),
-        humor: mood.moodType.weight,
+        date: dayjs(mood.createdAt).format('YYYY-MM-DD'),
+        weight: mood.moodType.weight,
       })),
       avg: average,
     }
