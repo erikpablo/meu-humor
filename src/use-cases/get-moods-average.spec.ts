@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryMoodTypeRepository } from '@/repositories/in-memory/in-memory-mood-type-repository'
 import { InMemoryMoodEntryRepository } from '@/repositories/in-memory/in-memory-mood-entry-repository'
-import { GetMoodsUseCase } from './get-moods'
+import { GetMoodsUseCase } from './get-moods-average'
 import dayjs from 'dayjs'
 
 let moodEntryRepository: InMemoryMoodEntryRepository

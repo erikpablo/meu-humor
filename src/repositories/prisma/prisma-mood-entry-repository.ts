@@ -75,13 +75,6 @@ export class PrismaMoodEntryRepository implements MoodEntryRepository {
       },
     })
 
-    console.log({
-      userId,
-      start: startOfDay.toISOString(),
-      end: endOfDay.toISOString(),
-      mood,
-    })
-
     if (!mood) {
       return null
     }

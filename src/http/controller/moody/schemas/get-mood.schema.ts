@@ -19,6 +19,7 @@ const getMoodsSchema = z.object({
       weight: z.number(),
     })
   ),
+  avg: z.number(),
 })
 
 export type GetMoodQuerySchema = z.infer<typeof querySchema>

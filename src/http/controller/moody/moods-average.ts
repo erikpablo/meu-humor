@@ -10,9 +10,11 @@ export async function moodAverage(
     request.query
   )
 
+  const userId = request.user.sub
+
   const moodAverageUseCase = MakeGetMoodsUseCase()
   const response = await moodAverageUseCase.execute({
-    userId: request.user.sub,
+    userId,
     startDate: start_date,
     endDate: end_date,
     order,
