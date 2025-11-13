@@ -9,7 +9,7 @@ const errorResponseSchema = z.object({
   message: z.string(),
 })
 
-export const profileSchema = {
+export const MoodSchema = {
   tags: ['Mood'],
   description: 'Allows the user to record their mood for the day.',
   security: [{ BearerAuth: [] }],
