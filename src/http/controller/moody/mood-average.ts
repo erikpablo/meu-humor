@@ -10,18 +10,14 @@ export async function moodAverage(
     request.query
   )
 
-  try {
-    const moodAverageUseCase = MakeGetMoodsUseCase()
-    const response = await moodAverageUseCase.execute({
-      userId: request.user.sub,
-      startDate: start_date,
-      endDate: end_date,
-      order,
-      limit: limit ? Number(limit) : undefined,
-    })
+  const moodAverageUseCase = MakeGetMoodsUseCase()
+  const response = await moodAverageUseCase.execute({
+    userId: request.user.sub,
+    startDate: start_date,
+    endDate: end_date,
+    order,
+    limit: limit ? Number(limit) : undefined,
+  })
 
-    return reply.status(200).send(response)
-  } catch (err: any) {
-    return reply.status(400).send({ error: err.message })
-  }
+  return reply.status(200).send(response)
 }
