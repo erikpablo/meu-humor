@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RedisBlacklistTokenRepository } from 'src/repositories/redis/black-list-token-repository'
-import { messages } from 'utils/messages'
+import { messages } from '@/shared/utils/messages'
 
 export async function verifyJWT(request: FastifyRequest, reply: FastifyReply) {
   const authHeader = request.headers.authorization

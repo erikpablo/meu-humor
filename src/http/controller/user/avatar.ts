@@ -24,18 +24,11 @@ export async function uploadAvatar(
 
   const finalFilename = `${match[1]}.${match[2].toLowerCase()}`
 
-  try {
-    const avatarUseCase = makeUpdateAvatarUseCase()
+  const avatarUseCase = makeUpdateAvatarUseCase()
 
-    await avatarUseCase.execute({
-      userId,
-      avatarUrl: finalFilename,
-    })
-    return reply.status(200).send()
-  } catch (err) {
-    if (err instanceof AvatarNotSetError) {
-      return reply.status(400).send({ message: err.message })
-    }
-    throw err
-  }
+  await avatarUseCase.execute({
+    userId,
+    avatarUrl: finalFilename,
+  })
+  return reply.status(200).send()
 }

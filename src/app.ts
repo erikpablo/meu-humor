@@ -1,6 +1,5 @@
 import fastify from 'fastify'
 import { env } from './env'
-import z, { ZodError } from 'zod'
 import { UsersRoute } from './http/controller/user/route'
 import { join } from 'path'
 import fastifyStatic from '@fastify/static'
@@ -19,6 +18,8 @@ import {
   hasZodFastifySchemaValidationErrors,
   isResponseSerializationError,
 } from 'fastify-type-provider-zod'
+import { AppException } from './shared/errors/app-exception'
+import { ErrorsCode } from './shared/errors/errors-code'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -81,15 +82,10 @@ app.setErrorHandler((error, request, reply) => {
     })
   }
 
-  if (isResponseSerializationError(error)) {
-    return reply.code(500).send({
-      message: 'Internal Server Error',
-      statusCode: 500,
-      details: {
-        issues: error.cause.issues,
-        method: error.method,
-        url: error.url,
-      },
+  if (error instanceof AppException) {
+    return reply.status(error.statusCode).send({
+      message: error.message,
+      code: error.errorsCode,
     })
   }
 
@@ -99,7 +95,8 @@ app.setErrorHandler((error, request, reply) => {
     // TODO: enviar para um serviço de monitoramento tool datadog/newRelic
   }
 
-  reply.status(500).send({
+  return reply.status(500).send({
     message: 'Internal server error',
+    code: ErrorsCode.INTERNAL_SERVER_ERROR,
   })
 })

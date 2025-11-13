@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from 'src/repositories/in-memory/in-memory-us
 import { describe, it, expect, beforeEach } from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
-import { UserAlreadyExistsError } from './error/user-already-exists-error'
+import { UserAlreadyExistsError } from './error/user-with-email-already-exists-error'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase

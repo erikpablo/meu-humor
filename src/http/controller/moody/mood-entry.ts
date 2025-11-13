@@ -6,20 +6,13 @@ import { MaxNumberOfMoodTypeError } from '@/use-cases/error/max-number-of-mood-t
 export async function moodEntry(request: FastifyRequest, reply: FastifyReply) {
   const { moodTypeId, note } = moodEntryBodySchema.parse(request.body)
 
-  try {
-    const moodEntryUseCase = makeMoodTypeUseCase()
+  const moodEntryUseCase = makeMoodTypeUseCase()
 
-    await moodEntryUseCase.execute({
-      userId: request.user.sub,
-      moodTypeId,
-      note,
-    })
+  await moodEntryUseCase.execute({
+    userId: request.user.sub,
+    moodTypeId,
+    note,
+  })
 
-    return reply.status(204).send()
-  } catch (err) {
-    if (err instanceof MaxNumberOfMoodTypeError) {
-      return reply.status(400).send({ message: err.message })
-    }
-    throw err
-  }
+  return reply.status(204).send()
 }

@@ -2,12 +2,12 @@ import { AppException } from '@/shared/errors/app-exception'
 import { ErrorsCode } from '@/shared/errors/errors-code'
 import { HttpStatusCodes } from '@/shared/errors/http-status-codes'
 
-export class InvalidCredentialsError extends AppException {
+export class UserWithEmailAlreadyExistsError extends AppException {
   constructor() {
     super(
-      'Invalid Credentials',
-      HttpStatusCodes.BAD_REQUEST,
-      ErrorsCode.INVALID_CREDENTIALS
+      'User with this email already exists',
+      HttpStatusCodes.CONFLICT,
+      ErrorsCode.SAME_EMAIL_ALREADY_EXISTS
     )
   }
 }
