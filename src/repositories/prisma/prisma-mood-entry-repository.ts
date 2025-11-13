@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, type MoodType } from '@prisma/client'
 import dayjs from 'dayjs'
 import {
   MoodEntryRepository,
@@ -53,5 +53,39 @@ export class PrismaMoodEntryRepository implements MoodEntryRepository {
       take: limit,
       include: { moodType: true },
     })
+  }
+
+  async findByUserIdAndDate(
+    userId: string,
+    date: Date
+  ): Promise<MoodType | null> {
+    const startOfDay = dayjs(date).startOf('day')
+    const endOfDay = dayjs(date).endOf('day')
+
+    const mood = await prisma.moodEntry.findFirst({
+      where: {
+        userId,
+        createdAt: {
+          gte: startOfDay.toDate(),
+          lte: endOfDay.toDate(),
+        },
+      },
+      include: {
+        moodType: true,
+      },
+    })
+
+    console.log({
+      userId,
+      start: startOfDay.toISOString(),
+      end: endOfDay.toISOString(),
+      mood,
+    })
+
+    if (!mood) {
+      return null
+    }
+
+    return mood.moodType
   }
 }

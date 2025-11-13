@@ -1,4 +1,4 @@
-import type { MoodEntry, Prisma } from '@prisma/client'
+import type { MoodEntry, MoodType, Prisma } from '@prisma/client'
 
 export type MoodEntryWithType = MoodEntry & {
   moodType: {
@@ -19,4 +19,5 @@ export interface MoodEntryRepository {
     order?: 'asc' | 'desc'
     limit?: number
   }): Promise<MoodEntryWithType[]>
+  findByUserIdAndDate(userId: string, date: Date): Promise<MoodType | null>
 }
