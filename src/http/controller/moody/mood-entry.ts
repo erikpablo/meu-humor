@@ -1,4 +1,4 @@
-import { makeMoodTypeUseCase } from '@/use-cases/factories/make-moody-entry-use-case'
+import { makeMoodEntryUseCase } from '@/use-cases/factories/make-mood-entry-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { moodEntryBodySchema } from './schemas/mood.schema'
 import { MaxNumberOfMoodTypeError } from '@/use-cases/error/max-number-of-mood-type-error'
@@ -6,7 +6,7 @@ import { MaxNumberOfMoodTypeError } from '@/use-cases/error/max-number-of-mood-t
 export async function moodEntry(request: FastifyRequest, reply: FastifyReply) {
   const { moodTypeId, note } = moodEntryBodySchema.parse(request.body)
 
-  const moodEntryUseCase = makeMoodTypeUseCase()
+  const moodEntryUseCase = makeMoodEntryUseCase()
 
   await moodEntryUseCase.execute({
     userId: request.user.sub,
